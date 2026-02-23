@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVGenius | Premium ATS-Friendly CV Builder</title>
+    <meta name="description"
+        content="Create a professional, ATS-friendly resume in minutes. Perfect for freshers and entry-level professionals.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo">
+                <span class="icon">✨</span>
+                <h1>CV<span>Genius</span></h1>
+            </div>
+            <div class="header-actions">
+                <div class="export-dropdown">
+                    <button class="btn-primary" id="main-download-btn">Download Resume ▼</button>
+                    <div class="dropdown-content">
+                        <button id="download-pdf">Save as PDF (.pdf)</button>
+                        <button id="download-word">Save as Word (.doc)</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="editor-layout">
+            <!-- Left Panel: Input Forms -->
+            <aside class="input-panel">
+                <div class="panel-header">
+                    <div class="header-main">
+                        <h2>Your Details ❤️</h2>
+                        <p>Let's build your story step-by-step</p>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div id="form-progress" class="progress-fill" style="width: 12.5%;"></div>
+                        </div>
+                        <span id="progress-text">Step 1 of 8</span>
+                    </div>
+                </div>
+
+                <div class="form-sections">
+                    <!-- Personal Info -->
+                    <section class="form-section active" data-section="personal">
+                        <div class="section-trigger">
+                            <span class="step-num">01</span>
+                            <h3>Personal Information 👤</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="input-group">
+                                <label for="full-name">Full Name</label>
+                                <input type="text" id="full-name" placeholder="John Doe" class="sync-input"
+                                    data-target="cv-name">
+                            </div>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" placeholder="john@example.com" class="sync-input"
+                                        data-target="cv-email">
+                                </div>
+                                <div class="input-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="tel" id="phone" placeholder="+1 234 567 890" class="sync-input"
+                                        data-target="cv-phone">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="location">Location</label>
+                                <input type="text" id="location" placeholder="City, State" class="sync-input"
+                                    data-target="cv-location">
+                            </div>
+                            <div class="input-group">
+                                <label for="linkedin">LinkedIn / Portfolio URL</label>
+                                <input type="text" id="linkedin" placeholder="linkedin.com/in/johndoe"
+                                    class="sync-input" data-target="cv-links">
+                            </div>
+                            <div class="input-group">
+                                <label for="summary">Professional Summary</label>
+                                <textarea id="summary" placeholder="Briefly describe your goals and key strengths..."
+                                    class="sync-input" data-target="cv-summary"></textarea>
+                            </div>
+                            <div class="section-footer">
+                                <button class="btn-primary save-btn">Save & Continue</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Experience -->
+                    <section class="form-section" data-section="experience">
+                        <div class="section-trigger">
+                            <span class="step-num">02</span>
+                            <h3>Work Experience 💼</h3>
+                        </div>
+                        <div class="section-content">
+                            <div id="experience-list" class="dynamic-list">
+                                <div class="dynamic-entry" data-index="0">
+                                    <div class="input-group">
+                                        <label>Role / Job Title</label>
+                                        <input type="text" placeholder="Software Developer Intern" class="exp-role">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Company & Location</label>
+                                        <input type="text" placeholder="Tech Corp" class="exp-company">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Duration</label>
+                                        <input type="text" placeholder="Jan 2024 - Present" class="exp-duration">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Achievements (One per line)</label>
+                                        <textarea placeholder="Developed X..." class="exp-desc"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-secondary add-btn" data-type="experience">+ Add Experience</button>
+                            <div class="section-footer">
+                                <button class="btn-primary save-btn">Save & Continue</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Education -->
+                    <section class="form-section" data-section="education">
+                        <div class="section-trigger">
+                            <span class="step-num">03</span>
+                            <h3>Education 🎓</h3>
+                        </div>
+                        <div class="section-content">
+                            <div id="education-list" class="dynamic-list">
+                                <div class="dynamic-entry" data-index="0">
+                                    <div class="input-group">
+                                        <label>Degree / Qualification</label>
+                                        <input type="text" placeholder="B.Tech" class="edu-degree">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>School / University</label>
+                                        <input type="text" placeholder="University" class="edu-school">
+                                    </div>
+                                    <div class="input-row">
+                                        <div class="input-group">
+                                            <label>Year / Duration</label>
+                                            <input type="text" placeholder="2021-2025" class="edu-year">
+                                        </div>
+                                        <div class="input-group">
+                                            <label>GPA / Percentage</label>
+                                            <input type="text" placeholder="8.5 CGPA" class="edu-gpa">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-secondary add-btn" data-type="education">+ Add Education</button>
+                            <div class="section-footer">
+                                <button class="btn-primary save-btn">Save & Continue</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Skills -->
+                    <section class="form-section" data-section="skills">
+                        <div class="section-trigger">
+                            <span class="step-num">04</span>
+                            <h3>Key Skills 🛠️</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="input-group">
+                                <label>Programming Languages</label>
+                                <input type="text" id="tech-languages" placeholder="Python, JavaScript, SQL..."
+                                    class="sync-skills" data-target="cv-tech-languages">
+                            </div>
+                            <div class="input-group">
+                                <label>Backend & APIs</label>
+                                <input type="text" id="tech-backend" placeholder="Fast-API, Flask, PostgreSQL..."
+                                    class="sync-skills" data-target="cv-tech-backend">
+                            </div>
+                            <div class="input-group">
+                                <label>Frontend & Visualization</label>
+                                <input type="text" id="tech-frontend" placeholder="React.js, Recharts..."
+                                    class="sync-skills" data-target="cv-tech-frontend">
+                            </div>
+                            <div class="input-group">
+                                <label>Embedded & IoT</label>
+                                <input type="text" id="tech-iot" placeholder="ESP32, BLE, Arduino..."
+                                    class="sync-skills" data-target="cv-tech-iot">
+                            </div>
+                            <div class="input-group">
+                                <label>Tools & Automation</label>
+                                <input type="text" id="tech-tools" placeholder="Git, GitHub, AWS..." class="sync-skills"
+                                    data-target="cv-tech-tools">
+                            </div>
+                            <div class="input-group">
+                                <label>AI/ML & Data Science</label>
+                                <input type="text" id="tech-ai" placeholder="Pandas, Computer Vision..."
+                                    class="sync-skills" data-target="cv-tech-ai">
+                            </div>
+                            <div class="section-footer">
+                                <button class="btn-primary save-btn">Save & Continue</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Academic Projects -->
+                    <section class="form-section" data-section="projects">
+                        <div class="section-trigger">
+                            <span class="step-num">05</span>
+                            <h3>ACADEMIC PROJECTS 📚</h3>
+                        </div>
+                        <div class="section-content">
+                            <div id="projects-list" class="dynamic-list">
+                                <div class="dynamic-entry" data-index="0">
+                                    <div class="input-group">
+                                        <label>Project Title</label>
+                                        <input type="text" placeholder="Personal Portfolio Website" class="proj-title">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Description & Tools</label>
+                                        <textarea placeholder="Built using React..." class="proj-desc"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-secondary add-btn" data-type="projects">+ Add Project</button>
+                            <div class="section-footer">
+                                <button class="btn-primary save-btn">Save & Continue</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Internship Projects -->
+                    <section class="form-section" data-section="intern-projects">
+                        <div class="section-trigger">
+                            <span class="step-num">06</span>
+                            <h3>INTERNSHIP PROJECTS 🚀</h3>
+                        </div>
+                        <div class="section-content">
+                            <div id="intern-projects-list" class="dynamic-list">
+                                <div class="dynamic-entry" data-index="0">
+                                    <div class="input-group">
+                                        <label>Project Title</label>
+                                        <input type="text" placeholder="BLE Module Development" class="proj-title">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Description & Tools</label>
+                                        <textarea placeholder="Developed X using Y..." class="proj-desc"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-secondary add-btn" data-type="intern-projects">+ Add Internship
+                                Project</button>
+                            <div class="section-footer">
+                                <button class="btn-primary save-btn">Save & Continue</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Certifications -->
+                    <section class="form-section" data-section="certifications">
+                        <div class="section-trigger">
+                            <span class="step-num">07</span>
+                            <h3>Certifications 📜</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="input-group">
+                                <label>Details (One per line)</label>
+                                <textarea id="certs" placeholder="Cyber Security Cert - NFSU..." class="sync-input"
+                                    data-target="cv-certs"></textarea>
+                            </div>
+                            <div class="section-footer">
+                                <button class="btn-primary save-btn">Save & Continue</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Achievements -->
+                    <section class="form-section" data-section="achievements">
+                        <div class="section-trigger">
+                            <span class="step-num">08</span>
+                            <h3>Achievements & Activities 🏆</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="input-group">
+                                <label>Details (One per line)</label>
+                                <textarea id="achievements" placeholder="Published research paper..." class="sync-input"
+                                    data-target="cv-achievements"></textarea>
+                            </div>
+                            <div class="section-footer">
+                                <button class="btn-primary save-btn">Save Section</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </aside>
+
+            <!-- Right Panel: Resume Preview -->
+            <section class="preview-panel">
+                <div class="preview-actions">
+                    <span>Live Preview</span>
+                    <div class="zoom-controls">
+                        <button id="zoom-out">-</button>
+                        <span id="zoom-level">100%</span>
+                        <button id="zoom-in">+</button>
+                    </div>
+                </div>
+
+                <div id="resume-container" class="resume-container">
+                    <div id="resume-canvas" class="resume-canvas">
+                        <!-- ATS Friendly Structure -->
+                        <header class="cv-header">
+                            <h1 id="cv-name">Your Full Name</h1>
+                            <div class="cv-contact">
+                                <a id="cv-email" href="#">email@example.com</a> |
+                                <a id="cv-phone" href="#">Phone Number</a> |
+                                <a id="cv-location" href="#" target="_blank">Location</a>
+                            </div>
+                            <div class="cv-links" id="cv-links-container">
+                                <a id="cv-links" href="#" target="_blank">linkedin.com/in/username</a>
+                            </div>
+                        </header>
+
+                        <div class="cv-section" id="section-summary">
+                            <h2 class="cv-section-title">Professional Summary</h2>
+                            <p id="cv-summary">Aspiring professional...</p>
+                        </div>
+
+                        <div class="cv-section" id="section-experience">
+                            <h2 class="cv-section-title">Work Experience</h2>
+                            <div id="cv-experience-list">
+                                <!-- Injected Experience -->
+                            </div>
+                        </div>
+
+                        <div class="cv-section" id="section-education">
+                            <h2 class="cv-section-title">Education</h2>
+                            <div id="cv-education-list">
+                                <!-- Injected Education -->
+                            </div>
+                        </div>
+
+                        <div class="cv-section" id="section-skills">
+                            <h2 class="cv-section-title">Technical Skills</h2>
+                            <div class="skills-grid">
+                                <div class="skill-group" id="group-tech-languages">
+                                    <strong>Programming Languages:</strong> <span id="cv-tech-languages"></span>
+                                </div>
+                                <div class="skill-group" id="group-tech-backend">
+                                    <strong>Backend & APIs:</strong> <span id="cv-tech-backend"></span>
+                                </div>
+                                <div class="skill-group" id="group-tech-frontend">
+                                    <strong>Frontend & Visualization:</strong> <span id="cv-tech-frontend"></span>
+                                </div>
+                                <div class="skill-group" id="group-tech-iot">
+                                    <strong>Embedded & IoT:</strong> <span id="cv-tech-iot"></span>
+                                </div>
+                                <div class="skill-group" id="group-tech-tools">
+                                    <strong>Tools & Automation:</strong> <span id="cv-tech-tools"></span>
+                                </div>
+                                <div class="skill-group" id="group-tech-ai">
+                                    <strong>AI/ML & Data Science:</strong> <span id="cv-tech-ai"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cv-section" id="section-projects">
+                            <h2 class="cv-section-title">ACADEMIC PROJECTS</h2>
+                            <div id="cv-projects-list">
+                                <!-- Injected Academic Projects -->
+                            </div>
+                        </div>
+
+                        <div class="cv-section" id="section-intern-projects">
+                            <h2 class="cv-section-title">INTERNSHIP PROJECTS</h2>
+                            <div id="cv-intern-projects-list">
+                                <!-- Injected Internship Projects -->
+                            </div>
+                        </div>
+
+                        <div class="cv-section" id="section-certs">
+                            <h2 class="cv-section-title">Certifications</h2>
+                            <ul id="cv-certs" class="cv-entry-desc" style="padding-left: 20px;">
+                                <!-- Injected Certs -->
+                            </ul>
+                        </div>
+
+                        <div class="cv-section" id="section-achievements">
+                            <h2 class="cv-section-title">Achievements & Activities</h2>
+                            <ul id="cv-achievements" class="cv-entry-desc" style="padding-left: 20px;">
+                                <!-- Injected Achievements -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer / Credits -->
+        <footer class="app-footer">
+            <p>&copy; 2024 CVGenius. Built for Freshers. Optimized for ATS.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
