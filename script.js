@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const styles = `
             <style>
-                body { font-family: Arial, sans-serif; padding: 20px; }
+                body { font-family: 'Times New Roman', Times, serif; padding: 20px; }
                 .cv-header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
                 .cv-header h1 { font-size: 24pt; margin-bottom: 5px; text-transform: uppercase; }
                 .cv-contact { font-size: 10pt; color: #444; margin-bottom: 5px; }
