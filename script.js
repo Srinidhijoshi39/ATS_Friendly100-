@@ -43,10 +43,91 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Persistence Functions ---
+    const DEBOUNCE_DELAY = 1000;
+    let saveTimeout;
+
+    function saveResumeData() {
+        const data = {
+            simpleInputs: {},
+            dynamicLists: {
+                experience: [],
+                education: [],
+                projects: [],
+                'intern-projects': []
+            }
+        };
+
+        // Save simple sync-inputs and sync-skills
+        document.querySelectorAll('.sync-input, .sync-skills').forEach(input => {
+            data.simpleInputs[input.id] = input.value;
+        });
+
+        // Save collections (Experience, Education, Projects)
+        const types = ['experience', 'education', 'projects', 'intern-projects'];
+        types.forEach(type => {
+            let listId = type === 'projects' ? 'projects-list' : (type === 'intern-projects' ? 'intern-projects-list' : `${type}-list`);
+            const container = document.getElementById(listId);
+            if (container) {
+                const entries = container.querySelectorAll('.dynamic-entry');
+                entries.forEach(entry => {
+                    const entryData = {};
+                    entry.querySelectorAll('input, textarea').forEach(field => {
+                        const classList = Array.from(field.classList);
+                        // Identify field name from class (e.g., 'exp-role' or 'proj-title')
+                        const fieldName = classList.find(c => c.includes('-') && !c.includes('input'));
+                        if (fieldName) entryData[fieldName] = field.value;
+                    });
+                    data.dynamicLists[type].push(entryData);
+                });
+            }
+        });
+
+        localStorage.setItem('cv_builder_data', JSON.stringify(data));
+        console.log("Progress Auto-Saved! ✓");
+    }
+
+    function loadResumeData() {
+        const saved = localStorage.getItem('cv_builder_data');
+        if (!saved) return false;
+
+        const data = JSON.parse(saved);
+
+        // Load simple inputs
+        for (const id in data.simpleInputs) {
+            const input = document.getElementById(id);
+            if (input) {
+                input.value = data.simpleInputs[id];
+                input.dispatchEvent(new Event('input'));
+            }
+        }
+
+        // Load dynamic lists
+        for (const type in data.dynamicLists) {
+            const entries = data.dynamicLists[type];
+            entries.forEach(entryData => {
+                const entry = addEntry(type);
+                for (const fieldClass in entryData) {
+                    const field = entry.querySelector(`.${fieldClass}`);
+                    if (field) field.value = entryData[fieldClass];
+                }
+            });
+            updateDynamicList(type);
+        }
+
+        return true;
+    }
+
+    function debounceSave() {
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(saveResumeData, DEBOUNCE_DELAY);
+    }
+
     // 2. Real-time Sync for simple inputs
     const syncInputs = document.querySelectorAll('.sync-input');
     syncInputs.forEach(input => {
         input.addEventListener('input', (e) => {
+            debounceSave();
             const targetId = e.target.dataset.target;
             const targetEl = document.getElementById(targetId);
             if (targetEl) {
@@ -86,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const syncSkills = document.querySelectorAll('.sync-skills');
     syncSkills.forEach(input => {
         input.addEventListener('input', (e) => {
+            debounceSave();
             const targetId = e.target.dataset.target;
             const targetEl = document.getElementById(targetId);
             const parentGroup = document.getElementById(`group-${targetId.replace('cv-', '')}`);
@@ -200,7 +282,10 @@ document.addEventListener('DOMContentLoaded', () => {
         container.insertAdjacentHTML('beforeend', html);
         const newEntry = container.lastElementChild;
         newEntry.querySelectorAll('input, textarea').forEach(input => {
-            input.addEventListener('input', () => updateDynamicList(type));
+            input.addEventListener('input', () => {
+                updateDynamicList(type);
+                debounceSave();
+            });
         });
         return newEntry;
     }
@@ -507,5 +592,9 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDynamicList('intern-projects');
     }
 
-    prefillWithSampleData();
+    // Initialize: Try loading, otherwise prefill
+    const wasLoaded = loadResumeData();
+    if (!wasLoaded) {
+        prefillWithSampleData();
+    }
 });
